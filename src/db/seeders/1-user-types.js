@@ -5,10 +5,10 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         return queryInterface.bulkInsert('user_types', [
             {
-                type: 'admin',
+                TYPE: 'admin',
             },
             {
-                type: 'user',
+                TYPE: 'user',
             },
         ]);
     },

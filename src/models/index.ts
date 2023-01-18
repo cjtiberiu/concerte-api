@@ -39,6 +39,7 @@ db.countries = require('./Country.model.js')(sequelize, Sequelize);
 db.users.belongsTo(db.userTypes, {
     foreignKey: {
         name: 'userType',
+        field: 'USER_TYPE',
         allowNull: false,
         defaultValue: 2,
     },
@@ -48,6 +49,7 @@ db.users.belongsTo(db.userTypes, {
 db.userTypes.hasMany(db.users, {
     foreignKey: {
         name: 'userType',
+        field: 'USER_TYPE',
         allowNull: false,
         defaultValue: 2,
     },
