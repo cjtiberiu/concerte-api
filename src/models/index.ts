@@ -53,7 +53,6 @@ db.events.belongsTo(db.artists, {
         name: 'eventArtist',
         field: 'EVENT_ARTIST',
         allowNull: false,
-        defaultValue: 2,
     },
     targetKey: 'id',
     uniqueKey: 'event_artist_fk',
@@ -63,7 +62,6 @@ db.artists.hasMany(db.events, {
         name: 'eventArtist',
         field: 'EVENT_ARTIST',
         allowNull: false,
-        defaultValue: 2,
     },
 });
 db.orders.belongsTo(db.users, {
@@ -71,7 +69,6 @@ db.orders.belongsTo(db.users, {
         name: 'userID',
         field: 'USER_ID',
         allowNull: false,
-        defaultValue: 2,
     },
     targetKey: 'id',
     uniqueKey: 'order_user_fk',
@@ -81,7 +78,6 @@ db.users.hasMany(db.orders, {
         name: 'userID',
         field: 'USER_ID',
         allowNull: false,
-        defaultValue: 2,
     },
 });
 db.orders.belongsTo(db.events, {
@@ -89,7 +85,6 @@ db.orders.belongsTo(db.events, {
         name: 'orderID',
         field: 'ORDER_ID',
         allowNull: false,
-        defaultValue: 2,
     },
     targetKey: 'id',
     uniqueKey: 'order_user_fk',
@@ -99,7 +94,6 @@ db.events.hasMany(db.orders, {
         name: 'orderID',
         field: 'ORDER_ID',
         allowNull: false,
-        defaultValue: 2,
     },
 });
 
