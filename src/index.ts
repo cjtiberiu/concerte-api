@@ -17,7 +17,7 @@ app.use('/api', routes);
 
 const db = require('./models');
 db.sequelize
-    .sync()
+    .sync({ force: true })
     .then(() => {
         console.log('Synced db.');
     })
