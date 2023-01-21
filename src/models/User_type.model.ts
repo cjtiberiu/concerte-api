@@ -15,11 +15,13 @@ module.exports = (sequelize: any, Sequelize: any) => {
                 type: DataTypes.STRING,
                 allowNull: false,
                 defaultValue: 'user',
-                field: 'TYPE',
+                field: 'TIP',
             },
         },
         {
             timestamps: false,
+            freezeTableName: true,
+            tableName: 'tipuri_utilizatori',
         }
     );
 

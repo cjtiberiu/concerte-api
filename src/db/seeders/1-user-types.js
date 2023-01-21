@@ -3,17 +3,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        return queryInterface.bulkInsert('user_types', [
+        return queryInterface.bulkInsert('tipuri_utilizatori', [
             {
-                TYPE: 'admin',
+                TIP: 'admin',
             },
             {
-                TYPE: 'user',
+                TIP: 'user',
             },
         ]);
     },
 
     async down(queryInterface, Sequelize) {
-        return queryInterface.bulkDelete('user_types', null, {});
+        return queryInterface.bulkDelete('tipuri_utilizatori', null, {});
     },
 };

@@ -1,8 +1,8 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
 module.exports = (sequelize: any, Sequelize: any) => {
-    const Artist = sequelize.define(
-        'artist',
+    const State = sequelize.define(
+        'state',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -19,9 +19,9 @@ module.exports = (sequelize: any, Sequelize: any) => {
         {
             timestamps: false,
             freezeTableName: true,
-            tableName: 'artisti',
+            tableName: 'judete',
         }
     );
 
-    return Artist;
+    return State;
 };

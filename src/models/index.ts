@@ -28,12 +28,13 @@ db.users = require('./User.model.js')(sequelize, Sequelize);
 db.artists = require('./Artist.model')(sequelize, Sequelize);
 db.events = require('./Event.model')(sequelize, Sequelize);
 db.orders = require('./Order.model')(sequelize, Sequelize);
-db.countries = require('./Country.model.js')(sequelize, Sequelize);
+db.states = require('./State.model.js')(sequelize, Sequelize);
+db.tickets = require('./Ticket.model')(sequelize, Sequelize);
 
 db.users.belongsTo(db.userTypes, {
     foreignKey: {
         name: 'userType',
-        field: 'USER_TYPE',
+        field: 'TIPUL_UTILIZATORULUI',
         allowNull: false,
         defaultValue: 2,
     },
@@ -43,7 +44,7 @@ db.users.belongsTo(db.userTypes, {
 db.userTypes.hasMany(db.users, {
     foreignKey: {
         name: 'userType',
-        field: 'USER_TYPE',
+        field: 'TIPUL_UTILIZATORULUI',
         allowNull: false,
         defaultValue: 2,
     },
@@ -51,7 +52,7 @@ db.userTypes.hasMany(db.users, {
 db.events.belongsTo(db.artists, {
     foreignKey: {
         name: 'eventArtist',
-        field: 'EVENT_ARTIST',
+        field: 'ARTIST_EVENIMENT',
         allowNull: false,
     },
     targetKey: 'id',
@@ -60,14 +61,14 @@ db.events.belongsTo(db.artists, {
 db.artists.hasMany(db.events, {
     foreignKey: {
         name: 'eventArtist',
-        field: 'EVENT_ARTIST',
+        field: 'ARTIST_EVENIMENT',
         allowNull: false,
     },
 });
 db.orders.belongsTo(db.users, {
     foreignKey: {
         name: 'userID',
-        field: 'USER_ID',
+        field: 'ID_UTILIZATOR',
         allowNull: false,
     },
     targetKey: 'id',
@@ -76,14 +77,14 @@ db.orders.belongsTo(db.users, {
 db.users.hasMany(db.orders, {
     foreignKey: {
         name: 'userID',
-        field: 'USER_ID',
+        field: 'ID_UTILIZATOR',
         allowNull: false,
     },
 });
 db.orders.belongsTo(db.events, {
     foreignKey: {
         name: 'orderID',
-        field: 'ORDER_ID',
+        field: 'ID_COMANDA',
         allowNull: false,
     },
     targetKey: 'id',
@@ -92,7 +93,39 @@ db.orders.belongsTo(db.events, {
 db.events.hasMany(db.orders, {
     foreignKey: {
         name: 'orderID',
-        field: 'ORDER_ID',
+        field: 'ID_COMANDA',
+        allowNull: false,
+    },
+});
+db.events.belongsTo(db.states, {
+    foreignKey: {
+        name: 'stateID',
+        field: 'ID_JUDET',
+        allowNull: false,
+    },
+    targetKey: 'id',
+    uniqueKey: 'order_user_fk',
+});
+db.states.hasMany(db.events, {
+    foreignKey: {
+        name: 'stateID',
+        field: 'ID_JUDET',
+        allowNull: false,
+    },
+});
+db.tickets.belongsTo(db.orders, {
+    foreignKey: {
+        name: 'orderID',
+        field: 'ID_COMANDA',
+        allowNull: false,
+    },
+    targetKey: 'id',
+    uniqueKey: 'ticket_order_fk',
+})
+db.orders.hasMany(db.tickets, {
+    foreignKey: {
+        name: 'orderID',
+        field: 'ID_COMANDA',
         allowNull: false,
     },
 });

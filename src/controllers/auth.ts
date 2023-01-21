@@ -9,20 +9,15 @@ dotenv.config();
 
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
+    console.log('REQUEST BODY', req.body);
     try {
         const user = await db.users.findOne({
             where: { email: email },
             raw: true,
             attributes: {
-                include: [
-                    [db.Sequelize.col('user_type.type'), 'userType'],
-                    [db.Sequelize.col('user_role.role'), 'userRole'],
-                ],
+                include: [[db.Sequelize.col('user_type.TIP'), 'userType']],
             },
-            include: [
-                { model: db.userTypes, attributes: [] },
-                { model: db.userRoles, attributes: [] },
-            ],
+            include: [{ model: db.userTypes, attributes: [] }],
         });
 
         if (!user) {

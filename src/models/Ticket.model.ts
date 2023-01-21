@@ -1,8 +1,8 @@
 import { Sequelize, DataTypes } from 'sequelize';
 
 module.exports = (sequelize: any, Sequelize: any) => {
-    const Event = sequelize.define(
-        'event',
+    const Ticket = sequelize.define(
+        'ticket',
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -13,19 +13,13 @@ module.exports = (sequelize: any, Sequelize: any) => {
             name: {
                 type: DataTypes.STRING,
                 allowNull: false,
+                defaultValue: 'user',
                 field: 'TITLU',
             },
-            ticketPrice: {
+            price: {
                 type: DataTypes.INTEGER,
-                field: 'PRETUL_BILETULUI',
-            },
-            eventDate: {
-                type: DataTypes.DATE,
-                field: 'DATA_EVENIMENTULUI',
-            },
-            stock: {
-                type: DataTypes.INTEGER,
-                field: 'STOC',
+                allowNull: false,
+                field: 'PRET',
             },
             createdAt: {
                 allowNull: false,
@@ -42,9 +36,9 @@ module.exports = (sequelize: any, Sequelize: any) => {
         },
         {
             freezeTableName: true,
-            tableName: 'evenimente',
+            tableName: 'bilete',
         }
     );
 
-    return Event;
+    return Ticket;
 };
