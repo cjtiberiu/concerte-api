@@ -83,8 +83,8 @@ db.users.hasMany(db.orders, {
 });
 db.orders.belongsTo(db.events, {
     foreignKey: {
-        name: 'orderID',
-        field: 'ID_COMANDA',
+        name: 'eventID',
+        field: 'ID_EVENIMENT',
         allowNull: false,
     },
     targetKey: 'id',
@@ -92,8 +92,8 @@ db.orders.belongsTo(db.events, {
 });
 db.events.hasMany(db.orders, {
     foreignKey: {
-        name: 'orderID',
-        field: 'ID_COMANDA',
+        name: 'eventID',
+        field: 'ID_EVENIMENT',
         allowNull: false,
     },
 });

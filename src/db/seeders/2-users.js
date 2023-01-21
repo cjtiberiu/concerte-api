@@ -8,7 +8,7 @@ module.exports = {
             {
                 PRENUME: 'Admin',
                 NUME: 'Test',
-                EMAIL: 'admin@genesis.com',
+                EMAIL: 'admin@concerte.ro',
                 PAROLA: bcrypt.hashSync('test', bcrypt.genSaltSync(10)),
                 TIPUL_UTILIZATORULUI: 1,
                 CREATED_AT: new Date(),
@@ -17,7 +17,7 @@ module.exports = {
             {
                 PRENUME: 'User',
                 NUME: 'Test',
-                EMAIL: 'user@genesis.com',
+                EMAIL: 'user@concerte.ro',
                 PAROLA: bcrypt.hashSync('test', bcrypt.genSaltSync(10)),
                 TIPUL_UTILIZATORULUI: 2,
                 CREATED_AT: new Date(),
