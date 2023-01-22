@@ -1,25 +1,53 @@
 import { Request, Response } from 'express';
 const db = require('../models/');
+const { Op } = require('sequelize');
+
+interface IEventsFilterObj {
+    name?: any;
+    eventArtist?: any;
+    eventDate?: any;
+    month?: any;
+    year?: any;
+}
 
 export const getEvents = async (req: Request, res: Response) => {
+    const { name, artist, month, year, startDate, endDate } = req.query;
+    const filter: IEventsFilterObj = {};
+
+    if (name) {
+        filter.name = { [Op.like]: `%${name}%` };
+    }
+
+    if (artist && Number(artist) > 0) {
+        filter.eventArtist = artist;
+    }
+
+    if ((startDate && startDate != 'null') || (endDate && endDate != 'null')) {
+        filter.eventDate = {
+            [Op.and]: [],
+        };
+    }
+
+    if (startDate && startDate != 'null') {
+        filter.eventDate[Op.and].push({ [Op.gt]: startDate });
+    }
+
+    if (endDate && endDate != 'null') {
+        filter.eventDate[Op.and].push({ [Op.lt]: endDate });
+    }
+
     try {
         const events = await db.events.findAll({
-            //raw: true,
+            where: filter,
             attributes: {
-                include: [
-                    //[db.Sequelize.col('artist.name'), 'artist'],
-                    //[db.Sequelize.col('state.name'), 'state'],
-                ],
                 exclude: ['eventArtist', 'stateID'],
             },
             include: [
                 {
                     model: db.artists,
-                    //attributes: [],
                 },
                 {
                     model: db.states,
-                    //attributes: [],
                 },
             ],
         });
@@ -31,13 +59,24 @@ export const getEvents = async (req: Request, res: Response) => {
 };
 
 export const getEvent = async (req: Request, res: Response) => {
-    const { eventID } = req.body;
+    const { eventID } = req.query;
 
     try {
         const event = await db.events.findOne({
             where: {
                 id: eventID,
             },
+            attributes: {
+                exclude: ['eventArtist', 'stateID'],
+            },
+            include: [
+                {
+                    model: db.artists,
+                },
+                {
+                    model: db.states,
+                },
+            ],
         });
 
         res.json({ eventData: event, message: 'Event Found' });
@@ -45,39 +84,6 @@ export const getEvent = async (req: Request, res: Response) => {
         return res.json({ message: err.name });
     }
 };
-
-// export const updateUser = async (req: Request, res: Response) => {
-//     const { firstName, lastName, email, contractStartDate, contractEndDate, userType, userRole } = req.body;
-//     let formattedStartDate;
-//     let formattedEndDate;
-
-//     // TODO: iso date formatting improvements
-
-//     if (contractStartDate) {
-//         formattedStartDate = new Date(contractStartDate);
-//         formattedStartDate = formattedStartDate.toISOString().split('T')[0] + ' ' + formattedStartDate.toTimeString().split(' ')[0];
-//     }
-
-//     if (contractEndDate) {
-//         formattedEndDate = new Date(contractEndDate);
-//         formattedEndDate = formattedEndDate.toISOString().split('T')[0] + ' ' + formattedEndDate.toTimeString().split(' ')[0];
-//     }
-
-//     try {
-//         const updatedUser = await db.users.update(
-//             { firstName, lastName, email, contractStartDate, contractEndDate, userType, userRole },
-//             {
-//                 where: {
-//                     email: email,
-//                 },
-//             }
-//         );
-
-//         return res.json({ updatedUser: updatedUser, message: 'User updated succesfully' });
-//     } catch (err) {
-//         return res.json({ message: err.name });
-//     }
-// };
 
 export const removeEvent = async (req: Request, res: Response) => {
     const { eventID } = req.body;

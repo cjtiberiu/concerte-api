@@ -33,10 +33,10 @@ export const addOrder = async (req: Request, res: Response) => {
 
         await t.commit();
 
-        res.json({ order: order, message: 'Order succesfully added!' });
+        res.json({ order: order, message: 'Order succesfully added!', orderStatus: 'SUCCESS' });
     } catch (err) {
         console.log(err);
         await t.rollback();
-        return res.json({ message: err.name });
+        return res.json({ message: err.name, orderStatus: 'ERROR' });
     }
 };
