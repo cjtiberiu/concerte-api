@@ -6,12 +6,13 @@ interface IEventsFilterObj {
     name?: any;
     eventArtist?: any;
     eventDate?: any;
+    displayDate?: any;
     month?: any;
     year?: any;
 }
 
 export const getEvents = async (req: Request, res: Response) => {
-    const { name, artist, month, year, startDate, endDate } = req.query;
+    const { name, artist, startDate, endDate } = req.query;
     const filter: IEventsFilterObj = {};
 
     if (name) {
@@ -39,7 +40,9 @@ export const getEvents = async (req: Request, res: Response) => {
     try {
         const events = await db.events.findAll({
             where: filter,
+            order: [['DATA_EVENIMENTULUI', 'ASC']],
             attributes: {
+                include: [[db.sequelize.literal(`DATE_FORMAT(DATA_EVENIMENTULUI, '%d-%m-%Y')`), 'displayDate']],
                 exclude: ['eventArtist', 'stateID'],
             },
             include: [
@@ -54,6 +57,7 @@ export const getEvents = async (req: Request, res: Response) => {
 
         res.json({ events: events });
     } catch (err) {
+        console.log(err);
         return res.json({ message: err.name });
     }
 };
@@ -85,6 +89,28 @@ export const getEvent = async (req: Request, res: Response) => {
     }
 };
 
+export const addEvent = async (req: Request, res: Response) => {
+    const { name, eventDate, ticketPrice, stock, artistID, stateID } = req.body;
+
+    try {
+        const event = db.events.create({
+            name,
+            eventDate,
+            ticketPrice,
+            initialStock: stock,
+            currentStock: stock,
+            eventArtist: artistID,
+            stateID,
+            displayImage: 'concert' + getRandomArbitrary(1, 5) + '.jpg'
+        });
+
+        return res.json({ event: event, message: 'Event added succesfully!', success: true, resultStatus: 'SUCCESS' });
+    } catch (err) {
+        console.log(err);
+        return res.json({ message: err.name, resultStatus: 'ERROR' });
+    }
+};
+
 export const removeEvent = async (req: Request, res: Response) => {
     const { eventID } = req.body;
 
@@ -100,3 +126,7 @@ export const removeEvent = async (req: Request, res: Response) => {
         return res.json({ message: err.name });
     }
 };
+
+const getRandomArbitrary = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min) + min);
+}

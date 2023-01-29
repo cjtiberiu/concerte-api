@@ -23,9 +23,17 @@ module.exports = (sequelize: any, Sequelize: any) => {
                 type: DataTypes.DATE,
                 field: 'DATA_EVENIMENTULUI',
             },
-            stock: {
+            initialStock: {
                 type: DataTypes.INTEGER,
-                field: 'STOC',
+                field: 'STOC_INITIAL',
+            },
+            currentStock: {
+                type: DataTypes.INTEGER,
+                field: 'STOC_CURENT',
+            },
+            displayImage: {
+                type: DataTypes.STRING,
+                field: 'IMAGINE',
             },
             createdAt: {
                 allowNull: false,

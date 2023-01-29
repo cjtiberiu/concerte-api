@@ -6,28 +6,28 @@ module.exports = {
     async up(queryInterface, Sequelize) {
         return queryInterface.bulkInsert('artisti', [
             {
-                NUME: 'Red Hot Chili Peppers',
+                NUME: 'Jamie Jones',
             },
             {
-                NUME: 'Nirvana',
+                NUME: 'Sven Vath',
             },
             {
-                NUME: 'Arctic Monkeys',
+                NUME: 'Seth Troxler',
             },
             {
-                NUME: 'Radiohead',
+                NUME: 'Dubfire',
             },
             {
-                NUME: 'Imagine Dragons',
+                NUME: 'Marco Carola',
             },
             {
-                NUME: 'Twenty One Pilots',
+                NUME: 'Loco Dice',
             },
             {
-                NUME: 'Thirty Seconds to Mars',
+                NUME: 'Hot Since 82',
             },
             {
-                NUME: 'Limp Bizkit',
+                NUME: 'Solomun',
             },
         ]);
     },
